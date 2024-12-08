@@ -1,0 +1,101 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Infinite Scroll Example</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      .item {
+        margin: 10px 0;
+        padding: 10px;
+        background: #f0f0f0;
+        border: 1px solid #ccc;
+      }
+      #loadingSpinner {
+        display: none;
+        text-align: center;
+        margin: 20px 0;
+      }
+      #loadingSpinner img {
+        width: 50px;
+        height: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Infinite Scroll Example</h1>
+    <div id="itemContainer"></div>
+    <div id="loadingSpinner">
+      <img src="https://i.imgur.com/LLF5iyg.gif" alt="Loading..." />
+    </div>
+
+    <script>
+      const itemContainer = document.getElementById("itemContainer");
+      const loadingSpinner = document.getElementById("loadingSpinner");
+      let currentPage = 1;
+      const limit = 20;
+      let isLoading = false;
+
+      async function loadItems() {
+        if (isLoading) return;
+        isLoading = true;
+        loadingSpinner.style.display = "block";
+
+        try {
+          const response = await fetch(
+            `http://192.168.127.55/items?page=${currentPage}&limit=${limit}`
+          );
+          const data = await response.json();
+
+          data.items.forEach((item) => {
+            const div = document.createElement("div");
+            div.className = "item";
+            div.textContent = item;
+            itemContainer.appendChild(div);
+          });
+
+          if (currentPage * limit >= data.total) {
+            window.removeEventListener("scroll", handleScroll);
+            loadingSpinner.style.display = "none";
+          } else {
+            currentPage++;
+          }
+        } catch (error) {
+          console.error("Error loading items:", error);
+        } finally {
+          isLoading = false;
+          loadingSpinner.style.display = "none";
+        }
+      }
+
+      function handleScroll() {
+        const { scrollTop, scrollHeight, clientHeight } =
+          document.documentElement;
+        if (scrollTop + clientHeight >= scrollHeight - 5) {
+          loadItems();
+        }
+      }
+      window.addEventListener("scroll", handleScroll);
+      loadItems();
+    </script>
+  </body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form action="/uploads" method="post" enctype="multipart/form-data">
+      <input type="text" name="name" id="name" />
+      <input type="file" name="files" id="file" multiple />
+      <input type="submit" value="Submit" />
+    </form>
+  </body>
+</html>
